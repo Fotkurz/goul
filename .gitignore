@@ -1,0 +1,19 @@
+# Binaries
+/goul
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binaries
+*.test
+
+# Output of the go coverage tool
+*.out
+
+# SQLite
+*.db
+*.db-journal
+*.db-wal
+*.db-shm

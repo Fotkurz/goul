@@ -1,0 +1,13 @@
+{{define "task_tree.html"}}
+{{if .}}
+  <ul class="tree-container">
+    {{range .}}
+      {{template "task_item.html" .}}
+    {{end}}
+  </ul>
+{{else}}
+  <div class="empty-state">
+    <p>🪦 The crypt is currently peaceful. Enter a task above to unearth work.</p>
+  </div>
+{{end}}
+{{end}}

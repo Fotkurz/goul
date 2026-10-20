@@ -1,0 +1,42 @@
+{{define "task_item.html"}}
+<li id="task-{{.ID}}" class="task-item {{if .Completed}}completed{{end}}">
+  <div class="task-content">
+    <div class="task-left">
+      <input type="checkbox"
+             class="task-checkbox"
+             {{if .Completed}}checked{{end}}
+             hx-patch="/tasks/{{.ID}}/toggle"
+             hx-target="#task-{{.ID}}"
+             hx-swap="outerHTML">
+      <span class="task-title">{{.Title}}</span>
+    </div>
+    <div class="task-actions">
+      <button type="button"
+              class="btn btn-ghost btn-dissect"
+              title="Dissect task with Ghoul"
+              hx-post="/tasks/{{.ID}}/dissect"
+              hx-include="#hunger-form"
+              hx-target="#task-tree"
+              hx-swap="innerHTML"
+              hx-indicator="#ghoul-indicator">
+        🦴 Dissect
+      </button>
+      <button type="button"
+              class="btn btn-ghost btn-bury"
+              title="Bury task"
+              hx-delete="/tasks/{{.ID}}"
+              hx-target="#task-{{.ID}}"
+              hx-swap="outerHTML">
+        ⚰️ Bury
+      </button>
+    </div>
+  </div>
+  {{if .Children}}
+  <ul class="subtask-list">
+    {{range .Children}}
+      {{template "task_item.html" .}}
+    {{end}}
+  </ul>
+  {{end}}
+</li>
+{{end}}

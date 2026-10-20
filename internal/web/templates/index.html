@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GOUL | Breakdown Tasks With Local AI</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/htmx.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo-wrapper">
+        <span class="ghoul-mascot">[o.o]</span>
+        <h1>GOUL</h1>
+      </div>
+      <p>Dissect overwhelming tasks into digestible bones with local Ollama intelligence.</p>
+    </header>
+
+    <div class="card">
+      <form id="new-task-form"
+            class="task-form"
+            hx-post="/tasks"
+            hx-target="#task-tree"
+            hx-swap="innerHTML"
+            hx-on::after-request="if(event.detail.successful) this.reset();">
+        <div class="input-row">
+          <input type="text"
+                 name="title"
+                 class="task-input"
+                 placeholder="Enter a task that haunts you..."
+                 required
+                 autocomplete="off"
+                 autofocus>
+          <button type="submit" class="btn btn-primary">
+            Unearth
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Hunger level selection for dissection -->
+    <div class="card" style="padding: 0.85rem 1.25rem;">
+      <form id="hunger-form" class="hunger-selector" onsubmit="return false;">
+        <span><strong>Ghoul Appetite:</strong></span>
+        <label>
+          <input type="radio" name="hunger" value="nibble" checked>
+          🦴 Nibble (3-4 milestones)
+        </label>
+        <label>
+          <input type="radio" name="hunger" value="feast">
+          🥩 Feast (6-8 micro-steps)
+        </label>
+      </form>
+    </div>
+
+    <!-- Loading indicator -->
+    <div id="ghoul-indicator" class="indicator digging-banner">
+      <span>🦴 The ghoul is gnawing and dissecting your task...</span>
+    </div>
+
+    <!-- Error message placeholder -->
+    <div id="error-container"></div>
+
+    <!-- Task list tree -->
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h2 style="font-size: 1.15rem; font-weight: 700;">Buried & Active Tasks</h2>
+      </div>
+      <div id="task-tree">
+        {{template "task_tree.html" .Tasks}}
+      </div>
+    </div>
+
+    <footer>
+      <p>Powered by Go, SQLite, HTMX & local Ollama (<strong>{{.Model}}</strong>) · Happy Halloween 🎃</p>
+    </footer>
+  </div>
+</body>
+</html>
